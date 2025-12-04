@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fake Data Generator</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Fake Data Generator</h1>
+      <p class="subtitle">Fill forms with realistic test data</p>
+    </div>
+
+    <div class="actions">
+      <button id="fillFormBtn" class="btn btn-primary">
+        ⚡ Fill Entire Form
+      </button>
+      <button id="fillFieldBtn" class="btn btn-secondary">
+        📝 Fill Focused Field
+      </button>
+    </div>
+
+    <div class="section">
+      <h2>Quick Generators</h2>
+      <div class="generator-grid">
+        <button class="generator-btn" data-type="firstName">First Name</button>
+        <button class="generator-btn" data-type="lastName">Last Name</button>
+        <button class="generator-btn" data-type="email">Email</button>
+        <button class="generator-btn" data-type="phone">Phone</button>
+        <button class="generator-btn" data-type="company">Company</button>
+        <button class="generator-btn" data-type="city">City</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Keyboard Shortcuts</h2>
+      <div class="shortcuts">
+        <div class="shortcut-item">
+          <span class="shortcut-key">Alt/Cmd + Shift + F</span>
+          <span class="shortcut-desc">Fill focused field</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="shortcut-key">Alt/Cmd + Shift + A</span>
+          <span class="shortcut-desc">Fill entire form</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="shortcut-key">Alt/Cmd + Double Click</span>
+          <span class="shortcut-desc">Fill single field</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="shortcut-key">Alt/Cmd + Shift + Double Click</span>
+          <span class="shortcut-desc">Fill entire form</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Usage Tips</h2>
+      <ul class="tips">
+        <li>Right-click any field to choose specific data type</li>
+        <li>Use shortcuts for faster form filling</li>
+        <li>Field types are auto-detected intelligently</li>
+        <li>Password fields are skipped for security</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <p>v1.0.0 | Made for testing purposes</p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

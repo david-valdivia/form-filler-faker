@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debug Test</title>
+</head>
+<body>
+  <h1>Debug Test</h1>
+
+  <label for="contact">Preferred Contact:</label>
+  <select id="contact" name="contact">
+    <option value="">Choose one...</option>
+    <option value="email">Email</option>
+    <option value="phone">Phone</option>
+    <option value="sms">SMS</option>
+  </select>
+
+  <script>
+    // Test to see if options are accessible
+    const select = document.getElementById('contact');
+    console.log('Select element:', select);
+    console.log('Options:', Array.from(select.options).map(o => ({
+      text: o.textContent.trim(),
+      value: o.value
+    })));
+  </script>
+</body>
+</html>

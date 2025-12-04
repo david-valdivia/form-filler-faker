@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Icon Generator</title>
+  <style>
+    body {
+      font-family: system-ui;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+    .icon-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .icon-box {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    canvas {
+      border: 1px solid #ddd;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Fake Data Extension Icons</h1>
+  <p>Right-click each canvas and "Save image as..." to save the icons</p>
+
+  <div class="icon-container">
+    <div class="icon-box">
+      <h3>16x16</h3>
+      <canvas id="icon16" width="16" height="16"></canvas>
+    </div>
+    <div class="icon-box">
+      <h3>32x32</h3>
+      <canvas id="icon32" width="32" height="32"></canvas>
+    </div>
+    <div class="icon-box">
+      <h3>48x48</h3>
+      <canvas id="icon48" width="48" height="48"></canvas>
+    </div>
+    <div class="icon-box">
+      <h3>128x128</h3>
+      <canvas id="icon128" width="128" height="128"></canvas>
+    </div>
+  </div>
+
+  <script>
+    function drawIcon(canvasId, size) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+
+      // Background gradient
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#667eea');
+      gradient.addColorStop(1, '#764ba2');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+
+      // Draw document icon
+      const padding = size * 0.2;
+      const docWidth = size * 0.5;
+      const docHeight = size * 0.6;
+      const docX = (size - docWidth) / 2;
+      const docY = (size - docHeight) / 2;
+
+      ctx.fillStyle = 'white';
+      ctx.fillRect(docX, docY, docWidth, docHeight);
+
+      // Draw lines (representing text)
+      const lineHeight = size * 0.08;
+      const lineWidth = docWidth * 0.7;
+      const lineX = docX + (docWidth - lineWidth) / 2;
+      let lineY = docY + size * 0.15;
+
+      ctx.fillStyle = '#667eea';
+      for (let i = 0; i < 3; i++) {
+        ctx.fillRect(lineX, lineY, lineWidth, lineHeight * 0.4);
+        lineY += lineHeight;
+      }
+
+      // Draw sparkle/star effect
+      const starSize = size * 0.15;
+      const starX = docX + docWidth - starSize / 2;
+      const starY = docY - starSize / 2;
+
+      ctx.fillStyle = '#ffd700';
+      ctx.beginPath();
+      ctx.arc(starX, starY, starSize / 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Generate all icon sizes
+    drawIcon('icon16', 16);
+    drawIcon('icon32', 32);
+    drawIcon('icon48', 48);
+    drawIcon('icon128', 128);
+  </script>
+</body>
+</html>
