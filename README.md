@@ -373,7 +373,7 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 - **Issues**: [GitHub Issues](https://github.com/yourusername/form-filler-faker/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/yourusername/form-filler-faker/discussions)
-- **Email**: your.email@example.com
+- **Email**: fff@dvaldivia.com
 
 ## 🌟 Star History
 
