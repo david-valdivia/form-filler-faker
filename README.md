@@ -43,7 +43,7 @@ Configurations persist across URLs with dynamic segments:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/form-filler-faker.git
+   git clone https://github.com/david-valdivia/form-filler-faker.git
    cd form-filler-faker
    ```
 
