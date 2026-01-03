@@ -125,6 +125,15 @@ let storageKeyPrefix = '';
 // Store last right-clicked element for context menu actions
 let lastRightClickedElement = null;
 
+// Form context for current fill session (stores generated data for related fields)
+let currentFormContext = {
+  firstName: null,
+  lastName: null,
+  fullName: null,
+  birthday: null,
+  birthYear: null
+};
+
 // Option picker (lazy initialization)
 let optionPicker = null;
 
@@ -167,6 +176,78 @@ function generateDateInRange(minDate, maxDate, format = 'US') {
   } else {
     return `${month}/${day}/${year}`;
   }
+}
+
+// Generate smart email based on form context (name, birthday, etc.)
+function generateSmartEmail(context) {
+  const domains = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'test.com', 'example.com'];
+  const domain = domains[Math.floor(Math.random() * domains.length)];
+
+  // If we don't have context data, use default email generator
+  if (!context.firstName || !context.lastName) {
+    return FakeDataGenerators.email();
+  }
+
+  const firstName = context.firstName.toLowerCase();
+  const lastName = context.lastName.toLowerCase();
+  const firstInitial = firstName.charAt(0);
+  const lastInitial = lastName.charAt(0);
+
+  // Random numbers (1-3 digits)
+  const randomNum = Math.floor(Math.random() * 999) + 1;
+  const shortNum = Math.floor(Math.random() * 99) + 1;
+
+  // Birth year if available
+  const birthYear = context.birthYear || '';
+
+  // Separator: dot or underscore
+  const separator = Math.random() > 0.5 ? '.' : '_';
+
+  // Define multiple email format patterns
+  const patterns = [
+    // Full name variations
+    `${firstName}${separator}${lastName}`,
+    `${firstName}${lastName}`,
+    `${lastName}${separator}${firstName}`,
+
+    // With numbers
+    `${firstName}${separator}${lastName}${randomNum}`,
+    `${firstName}${lastName}${randomNum}`,
+    `${firstName}${shortNum}`,
+
+    // With birth year
+    ...(birthYear ? [
+      `${firstName}${separator}${lastName}${birthYear}`,
+      `${firstName}${lastName}${birthYear}`,
+      `${firstName}${birthYear}`,
+      `${lastName}${birthYear}`,
+    ] : []),
+
+    // Initials variations
+    `${firstInitial}${separator}${lastName}`,
+    `${firstInitial}${lastName}`,
+    `${firstInitial}${lastInitial}${lastName}`,
+    `${firstName}${lastInitial}`,
+
+    // Initials with numbers
+    `${firstInitial}${separator}${lastName}${randomNum}`,
+    `${firstInitial}${lastInitial}${randomNum}`,
+
+    // Initials with birth year
+    ...(birthYear ? [
+      `${firstInitial}${separator}${lastName}${birthYear}`,
+      `${firstInitial}${lastInitial}${birthYear}`,
+    ] : []),
+
+    // Mixed variations
+    `${lastName}${separator}${firstInitial}`,
+    `${lastName}${firstInitial}${shortNum}`,
+  ];
+
+  // Select random pattern
+  const selectedPattern = patterns[Math.floor(Math.random() * patterns.length)];
+
+  return `${selectedPattern}@${domain}`;
 }
 
 // Detect field type based on attributes
@@ -301,9 +382,90 @@ function getFieldLabel(element) {
   return '';
 }
 
+// Check if element is visible (not hidden by CSS or classes)
+function isElementVisible(element) {
+  if (!element) return false;
+
+  // Check for "no-fill" class - if present, skip this field
+  if (element.classList.contains('no-fill')) {
+    return false;
+  }
+
+  // Check if input type is hidden
+  if (element.type === 'hidden') {
+    return false;
+  }
+
+  // Check for Bootstrap and Tailwind hidden classes on the element itself
+  const hiddenClasses = ['d-none', 'hidden', 'invisible', 'opacity-0'];
+  for (const className of hiddenClasses) {
+    if (element.classList.contains(className)) {
+      return false;
+    }
+  }
+
+  // Check computed styles of the element
+  const style = window.getComputedStyle(element);
+
+  // Check display
+  if (style.display === 'none') {
+    return false;
+  }
+
+  // Check visibility
+  if (style.visibility === 'hidden') {
+    return false;
+  }
+
+  // Check opacity (only on the element itself)
+  if (parseFloat(style.opacity) === 0) {
+    return false;
+  }
+
+  // Check dimensions (width and height)
+  const rect = element.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) {
+    return false;
+  }
+
+  // Check all parent elements up to body
+  let parent = element.parentElement;
+  while (parent && parent !== document.body) {
+    // Check for hidden classes on ancestors
+    for (const className of hiddenClasses) {
+      if (parent.classList.contains(className)) {
+        return false;
+      }
+    }
+
+    // Check parent computed styles
+    const parentStyle = window.getComputedStyle(parent);
+
+    // Check parent display
+    if (parentStyle.display === 'none') {
+      return false;
+    }
+
+    // Check parent visibility
+    if (parentStyle.visibility === 'hidden') {
+      return false;
+    }
+
+    parent = parent.parentElement;
+  }
+
+  return true;
+}
+
 // Fill a field with generated data
-function fillField(element, generatorType = null) {
+function fillField(element, generatorType = null, context = null) {
   if (!element) return;
+
+  // Skip if element is not visible
+  if (!isElementVisible(element)) {
+    console.log('[FillField] Skipping invisible element:', element);
+    return;
+  }
 
   // Use stored mapping or detect type
   const fieldId = getFieldIdentifier(element);
@@ -321,10 +483,38 @@ function fillField(element, generatorType = null) {
     const format = isDateInput ? 'ISO' : 'US';
     value = generateDateInRange(storedDateConfig.minDate, storedDateConfig.maxDate, format);
     console.log('[FillField] Using stored date range:', storedDateConfig, 'Generated:', value);
+  } else if (type === 'email' && context) {
+    // Use smart email generator with context
+    value = generateSmartEmail(context);
+    console.log('[FillField] Generated smart email using context:', value);
   } else if (FakeDataGenerators[type]) {
     value = FakeDataGenerators[type]();
   } else {
     value = FakeDataGenerators.sentence();
+  }
+
+  // Update context with generated data for related fields
+  if (context) {
+    if (type === 'firstName') {
+      context.firstName = value;
+    } else if (type === 'lastName') {
+      context.lastName = value;
+    } else if (type === 'fullName') {
+      context.fullName = value;
+      // Try to extract first and last name from full name
+      const parts = value.split(' ');
+      if (parts.length >= 2) {
+        context.firstName = parts[0];
+        context.lastName = parts[parts.length - 1];
+      }
+    } else if (type === 'birthday' || type === 'date') {
+      context.birthday = value;
+      // Extract year from date (handles both MM/DD/YYYY and YYYY-MM-DD formats)
+      const yearMatch = value.match(/\d{4}/);
+      if (yearMatch) {
+        context.birthYear = yearMatch[0];
+      }
+    }
   }
 
   // Store mapping
@@ -603,6 +793,15 @@ function fillEntireForm() {
   const formElements = document.querySelectorAll('input, textarea, select');
   let filledCount = 0;
 
+  // Reset form context for this fill session
+  const formContext = {
+    firstName: null,
+    lastName: null,
+    fullName: null,
+    birthday: null,
+    birthYear: null
+  };
+
   formElements.forEach(element => {
     // Skip certain types
     const type = element.type?.toLowerCase();
@@ -620,7 +819,12 @@ function fillEntireForm() {
       return;
     }
 
-    fillField(element);
+    // Skip if element is not visible
+    if (!isElementVisible(element)) {
+      return;
+    }
+
+    fillField(element, null, formContext);
     filledCount++;
   });
 
@@ -628,6 +832,9 @@ function fillEntireForm() {
   if (filledCount > 0) {
     showNotification(`Filled ${filledCount} fields with fake data`);
   }
+
+  // Log the generated context for debugging
+  console.log('[FillEntireForm] Generated form context:', formContext);
 }
 
 // Show temporary notification

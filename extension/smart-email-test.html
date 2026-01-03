@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Email Inteligente y Clase no-fill</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .field-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .instructions {
+            background: #e7f3ff;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            margin-bottom: 20px;
+        }
+        .expected {
+            background: #d4edda;
+            padding: 15px;
+            border-left: 4px solid #28a745;
+            margin-top: 10px;
+        }
+        .note {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin-top: 10px;
+        }
+        .no-fill-badge {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test de Email Inteligente y Clase "no-fill"</h1>
+
+    <div class="instructions">
+        <strong>📋 Instrucciones:</strong>
+        <p>Este formulario prueba las dos nuevas funcionalidades:</p>
+        <ol>
+            <li><strong>Clase "no-fill":</strong> Campos marcados con esta clase NO deben llenarse automáticamente</li>
+            <li><strong>Emails inteligentes:</strong> El email se genera basado en el nombre, apellido y fecha de nacimiento</li>
+        </ol>
+        <p><strong>Para probar:</strong> Usa el atajo <code>Alt+Shift+A</code> (Windows/Linux) o <code>Cmd+Shift+A</code> (Mac) para llenar todo el formulario.</p>
+    </div>
+
+    <!-- FORMULARIO PRINCIPAL -->
+    <div class="section">
+        <h2>✅ Formulario de Registro (CON contexto inteligente)</h2>
+        <p>Este formulario debe llenarse completamente. El email debe estar relacionado con el nombre y apellido generados.</p>
+
+        <div class="field-group">
+            <label for="first-name">Nombre:</label>
+            <input type="text" id="first-name" name="firstName" placeholder="Nombre">
+        </div>
+
+        <div class="field-group">
+            <label for="last-name">Apellido:</label>
+            <input type="text" id="last-name" name="lastName" placeholder="Apellido">
+        </div>
+
+        <div class="field-group">
+            <label for="birthday">Fecha de Nacimiento:</label>
+            <input type="date" id="birthday" name="birthday">
+        </div>
+
+        <div class="field-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Email">
+        </div>
+
+        <div class="field-group">
+            <label for="phone">Teléfono:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Teléfono">
+        </div>
+
+        <div class="expected">
+            <strong>✅ Resultado Esperado:</strong>
+            <ul>
+                <li>Todos los campos deben llenarse automáticamente</li>
+                <li>El <strong>email</strong> debe contener el nombre y/o apellido generado</li>
+                <li>El email puede incluir el año de nacimiento si está disponible</li>
+                <li>Ejemplos de emails esperados:
+                    <ul>
+                        <li><code>john.doe@gmail.com</code></li>
+                        <li><code>j.doe1990@yahoo.com</code></li>
+                        <li><code>doe_john@outlook.com</code></li>
+                        <li><code>john.doe1990@hotmail.com</code></li>
+                        <li><code>jdoe123@test.com</code></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- CAMPOS CON NO-FILL -->
+    <div class="section">
+        <h2>❌ Campos con clase "no-fill" (NO deben llenarse)</h2>
+        <p>Estos campos tienen la clase <code>no-fill</code> y deben permanecer vacíos.</p>
+
+        <div class="field-group">
+            <label for="no-fill-1">Campo de texto con no-fill <span class="no-fill-badge">no-fill</span></label>
+            <input type="text" id="no-fill-1" name="no-fill-1" class="no-fill" placeholder="No debe llenarse">
+            <small style="color: #666;">Clase: <code>class="no-fill"</code></small>
+        </div>
+
+        <div class="field-group">
+            <label for="no-fill-email">Email con no-fill <span class="no-fill-badge">no-fill</span></label>
+            <input type="email" id="no-fill-email" name="no-fill-email" class="no-fill" placeholder="No debe llenarse">
+            <small style="color: #666;">Clase: <code>class="no-fill"</code></small>
+        </div>
+
+        <div class="field-group">
+            <label for="no-fill-date">Fecha con no-fill <span class="no-fill-badge">no-fill</span></label>
+            <input type="date" id="no-fill-date" name="no-fill-date" class="no-fill">
+            <small style="color: #666;">Clase: <code>class="no-fill"</code></small>
+        </div>
+
+        <div class="field-group">
+            <label for="no-fill-textarea">Textarea con no-fill <span class="no-fill-badge">no-fill</span></label>
+            <textarea id="no-fill-textarea" name="no-fill-textarea" class="no-fill" rows="3" placeholder="No debe llenarse"></textarea>
+            <small style="color: #666;">Clase: <code>class="no-fill"</code></small>
+        </div>
+
+        <div class="field-group">
+            <label for="no-fill-select">Select con no-fill <span class="no-fill-badge">no-fill</span></label>
+            <select id="no-fill-select" name="no-fill-select" class="no-fill">
+                <option value="">Seleccione...</option>
+                <option value="1">Opción 1</option>
+                <option value="2">Opción 2</option>
+                <option value="3">Opción 3</option>
+            </select>
+            <small style="color: #666;">Clase: <code>class="no-fill"</code></small>
+        </div>
+
+        <div class="expected">
+            <strong>❌ Resultado Esperado:</strong>
+            <ul>
+                <li>NINGUNO de estos campos debe llenarse</li>
+                <li>Todos deben permanecer vacíos o con valor por defecto</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- FORMULARIO CON FULLNAME -->
+    <div class="section">
+        <h2>✅ Formulario con Nombre Completo</h2>
+        <p>Este formulario usa un campo de nombre completo en lugar de nombre y apellido separados.</p>
+
+        <div class="field-group">
+            <label for="full-name">Nombre Completo:</label>
+            <input type="text" id="full-name" name="fullName" placeholder="Nombre completo">
+        </div>
+
+        <div class="field-group">
+            <label for="birth-date">Fecha de Nacimiento:</label>
+            <input type="text" id="birth-date" name="dob" placeholder="MM/DD/YYYY">
+        </div>
+
+        <div class="field-group">
+            <label for="email-2">Email:</label>
+            <input type="email" id="email-2" name="email" placeholder="Email">
+        </div>
+
+        <div class="expected">
+            <strong>✅ Resultado Esperado:</strong>
+            <ul>
+                <li>El nombre completo se genera (ej: "John Doe")</li>
+                <li>El email se basa en el nombre completo generado</li>
+                <li>Ejemplo: si nombre es "John Doe", email puede ser <code>john.doe@gmail.com</code></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- MEZCLA DE CAMPOS -->
+    <div class="section">
+        <h2>🎯 Formulario Mixto (con y sin no-fill)</h2>
+        <p>Este formulario tiene algunos campos normales y otros con <code>no-fill</code></p>
+
+        <div class="field-group">
+            <label for="mix-name">Nombre (normal):</label>
+            <input type="text" id="mix-name" name="name" placeholder="Debe llenarse">
+        </div>
+
+        <div class="field-group">
+            <label for="mix-internal-id">ID Interno <span class="no-fill-badge">no-fill</span></label>
+            <input type="text" id="mix-internal-id" name="internal-id" class="no-fill" placeholder="No debe llenarse">
+        </div>
+
+        <div class="field-group">
+            <label for="mix-email">Email (normal):</label>
+            <input type="email" id="mix-email" name="email" placeholder="Debe llenarse">
+        </div>
+
+        <div class="field-group">
+            <label for="mix-reference">Código de Referencia <span class="no-fill-badge">no-fill</span></label>
+            <input type="text" id="mix-reference" name="reference" class="no-fill" placeholder="No debe llenarse">
+        </div>
+
+        <div class="field-group">
+            <label for="mix-city">Ciudad (normal):</label>
+            <input type="text" id="mix-city" name="city" placeholder="Debe llenarse">
+        </div>
+
+        <div class="expected">
+            <strong>🎯 Resultado Esperado:</strong>
+            <ul>
+                <li>Campos "Nombre", "Email" y "Ciudad" deben llenarse</li>
+                <li>Campos "ID Interno" y "Código de Referencia" NO deben llenarse</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="note">
+        <strong>💡 Nota:</strong>
+        <p>Abre la consola del navegador (F12) para ver los logs de depuración:</p>
+        <ul>
+            <li><code>[FillField] Generated smart email using context</code> - cuando se genera un email inteligente</li>
+            <li><code>[FillEntireForm] Generated form context</code> - para ver el contexto completo generado</li>
+            <li><code>[FillField] Skipping invisible element</code> - cuando se omite un campo con no-fill</li>
+        </ul>
+    </div>
+
+    <script>
+        // Script para validar los resultados
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Test de Email Inteligente y no-fill cargado');
+
+            // Listener para verificar qué campos se llenan
+            const allInputs = document.querySelectorAll('input, select, textarea');
+            allInputs.forEach(input => {
+                input.addEventListener('input', (e) => {
+                    const hasNoFill = e.target.classList.contains('no-fill');
+                    if (hasNoFill) {
+                        console.error('⚠️ ERROR: Campo con no-fill fue llenado:', e.target.id || e.target.name);
+                    } else {
+                        console.log('✅ Campo llenado correctamente:', e.target.id || e.target.name, 'Valor:', e.target.value);
+                    }
+                });
+            });
+        });
+
+        // Botón para validar manualmente
+        function validateResults() {
+            const noFillFields = document.querySelectorAll('.no-fill');
+            let errors = 0;
+
+            noFillFields.forEach(field => {
+                if (field.value) {
+                    console.error('❌ ERROR: Campo no-fill tiene valor:', field.id || field.name, 'Valor:', field.value);
+                    errors++;
+                }
+            });
+
+            if (errors === 0) {
+                console.log('✅ VALIDACIÓN EXITOSA: Ningún campo no-fill fue llenado');
+                alert('✅ Validación exitosa: Todos los campos no-fill están vacíos');
+            } else {
+                console.error(`❌ VALIDACIÓN FALLIDA: ${errors} campos no-fill fueron llenados incorrectamente`);
+                alert(`❌ Validación fallida: ${errors} campos no-fill fueron llenados`);
+            }
+        }
+    </script>
+</body>
+</html>

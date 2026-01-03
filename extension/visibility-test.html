@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Visibilidad - Form Filler Faker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .field-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .instructions {
+            background: #e7f3ff;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            margin-bottom: 20px;
+        }
+        /* Bootstrap classes simulation */
+        .d-none { display: none !important; }
+        .invisible { visibility: hidden !important; }
+        /* Tailwind classes simulation */
+        .hidden { display: none !important; }
+        .opacity-0 { opacity: 0 !important; }
+    </style>
+</head>
+<body>
+    <h1>Test de Visibilidad - Form Filler Faker</h1>
+
+    <div class="instructions">
+        <strong>Instrucciones:</strong>
+        <p>Este formulario contiene campos visibles y ocultos de diferentes maneras.
+        Usa la extensión para llenar todo el formulario (Alt+Shift+A o Cmd+Shift+A).</p>
+        <p><strong>Resultado esperado:</strong> Solo los campos de la sección "Campos VISIBLES" deben llenarse.
+        Todos los campos en la sección "Campos OCULTOS" deben permanecer vacíos.</p>
+    </div>
+
+    <!-- VISIBLE FIELDS -->
+    <div class="section">
+        <h2>✅ Campos VISIBLES (deben llenarse)</h2>
+
+        <div class="field-group">
+            <label for="visible-name">Nombre completo:</label>
+            <input type="text" id="visible-name" name="name" placeholder="Nombre">
+        </div>
+
+        <div class="field-group">
+            <label for="visible-email">Email:</label>
+            <input type="email" id="visible-email" name="email" placeholder="Email">
+        </div>
+
+        <div class="field-group">
+            <label for="visible-phone">Teléfono:</label>
+            <input type="tel" id="visible-phone" name="phone" placeholder="Teléfono">
+        </div>
+
+        <div class="field-group">
+            <label for="visible-address">Dirección:</label>
+            <input type="text" id="visible-address" name="address" placeholder="Dirección">
+        </div>
+
+        <div class="field-group">
+            <label for="visible-city">Ciudad:</label>
+            <input type="text" id="visible-city" name="city" placeholder="Ciudad">
+        </div>
+    </div>
+
+    <!-- HIDDEN FIELDS -->
+    <div class="section">
+        <h2>❌ Campos OCULTOS (NO deben llenarse)</h2>
+
+        <div class="field-group">
+            <label>1. Input type="hidden":</label>
+            <input type="hidden" id="hidden-type" name="hidden-type" value="">
+            <small style="color: #666;">Campo con type="hidden"</small>
+        </div>
+
+        <div class="field-group">
+            <label>2. Display none (CSS inline):</label>
+            <input type="text" id="hidden-display" name="hidden-display"
+                   style="display: none;" placeholder="Display none">
+            <small style="color: #666;">Campo con style="display: none"</small>
+        </div>
+
+        <div class="field-group">
+            <label>3. Visibility hidden (CSS inline):</label>
+            <input type="text" id="hidden-visibility" name="hidden-visibility"
+                   style="visibility: hidden;" placeholder="Visibility hidden">
+            <small style="color: #666;">Campo con style="visibility: hidden"</small>
+        </div>
+
+        <div class="field-group">
+            <label>4. Opacity 0 (CSS inline):</label>
+            <input type="text" id="hidden-opacity" name="hidden-opacity"
+                   style="opacity: 0;" placeholder="Opacity 0">
+            <small style="color: #666;">Campo con style="opacity: 0"</small>
+        </div>
+
+        <div class="field-group">
+            <label>5. Width 0 (CSS inline):</label>
+            <input type="text" id="hidden-width" name="hidden-width"
+                   style="width: 0; height: 0;" placeholder="Width/Height 0">
+            <small style="color: #666;">Campo con width y height de 0</small>
+        </div>
+
+        <div class="field-group">
+            <label>6. Bootstrap clase "d-none":</label>
+            <input type="text" id="hidden-bootstrap-dnone" name="hidden-bootstrap-dnone"
+                   class="d-none" placeholder="Bootstrap d-none">
+            <small style="color: #666;">Campo con clase Bootstrap "d-none"</small>
+        </div>
+
+        <div class="field-group">
+            <label>7. Bootstrap clase "invisible":</label>
+            <input type="text" id="hidden-bootstrap-invisible" name="hidden-bootstrap-invisible"
+                   class="invisible" placeholder="Bootstrap invisible">
+            <small style="color: #666;">Campo con clase Bootstrap "invisible"</small>
+        </div>
+
+        <div class="field-group">
+            <label>8. Tailwind clase "hidden":</label>
+            <input type="text" id="hidden-tailwind-hidden" name="hidden-tailwind-hidden"
+                   class="hidden" placeholder="Tailwind hidden">
+            <small style="color: #666;">Campo con clase Tailwind "hidden"</small>
+        </div>
+
+        <div class="field-group">
+            <label>9. Tailwind clase "opacity-0":</label>
+            <input type="text" id="hidden-tailwind-opacity" name="hidden-tailwind-opacity"
+                   class="opacity-0" placeholder="Tailwind opacity-0">
+            <small style="color: #666;">Campo con clase Tailwind "opacity-0"</small>
+        </div>
+
+        <div class="field-group">
+            <label>10. Campo dentro de contenedor con display:none:</label>
+            <div style="display: none;">
+                <input type="text" id="hidden-parent-display" name="hidden-parent-display"
+                       placeholder="Padre con display none">
+            </div>
+            <small style="color: #666;">Campo dentro de div con display:none</small>
+        </div>
+
+        <div class="field-group">
+            <label>11. Campo dentro de contenedor con visibility:hidden:</label>
+            <div style="visibility: hidden;">
+                <input type="text" id="hidden-parent-visibility" name="hidden-parent-visibility"
+                       placeholder="Padre con visibility hidden">
+            </div>
+            <small style="color: #666;">Campo dentro de div con visibility:hidden</small>
+        </div>
+
+        <div class="field-group">
+            <label>12. Campo dentro de contenedor con clase Bootstrap d-none:</label>
+            <div class="d-none">
+                <input type="text" id="hidden-parent-bootstrap" name="hidden-parent-bootstrap"
+                       placeholder="Padre con d-none">
+            </div>
+            <small style="color: #666;">Campo dentro de div con clase "d-none"</small>
+        </div>
+
+        <div class="field-group">
+            <label>13. Campo dentro de contenedor con clase Tailwind hidden:</label>
+            <div class="hidden">
+                <input type="text" id="hidden-parent-tailwind" name="hidden-parent-tailwind"
+                       placeholder="Padre con hidden">
+            </div>
+            <small style="color: #666;">Campo dentro de div con clase "hidden"</small>
+        </div>
+    </div>
+
+    <!-- SELECT AND TEXTAREA TESTS -->
+    <div class="section">
+        <h2>✅ Select y Textarea VISIBLES (deben llenarse)</h2>
+
+        <div class="field-group">
+            <label for="visible-country">País:</label>
+            <select id="visible-country" name="country">
+                <option value="">Seleccione...</option>
+                <option value="us">Estados Unidos</option>
+                <option value="mx">México</option>
+                <option value="ca">Canadá</option>
+            </select>
+        </div>
+
+        <div class="field-group">
+            <label for="visible-message">Mensaje:</label>
+            <textarea id="visible-message" name="message" rows="3" placeholder="Mensaje"></textarea>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>❌ Select y Textarea OCULTOS (NO deben llenarse)</h2>
+
+        <div class="field-group">
+            <label>Select con display:none:</label>
+            <select id="hidden-select" name="hidden-select" style="display: none;">
+                <option value="">Seleccione...</option>
+                <option value="1">Opción 1</option>
+                <option value="2">Opción 2</option>
+            </select>
+            <small style="color: #666;">Select oculto con display:none</small>
+        </div>
+
+        <div class="field-group">
+            <label>Textarea con clase d-none:</label>
+            <textarea id="hidden-textarea" name="hidden-textarea" class="d-none"
+                      rows="3" placeholder="Textarea oculto"></textarea>
+            <small style="color: #666;">Textarea oculto con clase d-none</small>
+        </div>
+    </div>
+
+    <script>
+        // Script para mostrar en consola qué campos se llenaron
+        document.addEventListener('DOMContentLoaded', () => {
+            const allInputs = document.querySelectorAll('input, select, textarea');
+
+            // Observer para detectar cambios en los valores
+            allInputs.forEach(input => {
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
+                            console.log('Campo llenado:', input.id || input.name, 'Valor:', input.value);
+                        }
+                    });
+                });
+
+                // También escuchar eventos de input
+                input.addEventListener('input', (e) => {
+                    console.log('✅ Campo llenado:', e.target.id || e.target.name, 'Valor:', e.target.value);
+                });
+            });
+
+            console.log('Test de visibilidad cargado. Total de campos:', allInputs.length);
+        });
+    </script>
+</body>
+</html>
