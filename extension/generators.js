@@ -41,14 +41,13 @@ const FakeDataGenerators = {
     return `${firstName}.${lastName}${num}@${domain}`;
   },
 
-  // Phone generator - valid US 10 digit number starting with 555
+  // Phone generator - valid US 10 digit number
   phone: () => {
-    // 555 prefix (classic fictional number) + 7 random digits
-    let number = '555';
-    for (let i = 0; i < 7; i++) {
-      number += Math.floor(Math.random() * 10);
-    }
-    return number;
+    // Valid US format: NXX-555-XXXX (N=2-9, X=0-9)
+    const areaFirst = Math.floor(Math.random() * 8) + 2;
+    const areaRest = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+    const subscriber = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+    return `${areaFirst}${areaRest}555${subscriber}`;
   },
 
   // Address generators
