@@ -41,10 +41,11 @@ const FakeDataGenerators = {
     return `${firstName}.${lastName}${num}@${domain}`;
   },
 
-  // Phone generator - simple 10 digit number
+  // Phone generator - valid US 10 digit number starting with 555
   phone: () => {
-    let number = '';
-    for (let i = 0; i < 10; i++) {
+    // 555 prefix (classic fictional number) + 7 random digits
+    let number = '555';
+    for (let i = 0; i < 7; i++) {
       number += Math.floor(Math.random() * 10);
     }
     return number;
