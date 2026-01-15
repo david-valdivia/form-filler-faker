@@ -41,16 +41,13 @@ const FakeDataGenerators = {
     return `${firstName}.${lastName}${num}@${domain}`;
   },
 
-  // Phone generator
+  // Phone generator - simple 10 digit number
   phone: () => {
-    const formats = [
-      '###-###-####',
-      '(###) ###-####',
-      '###.###.####',
-      '+1 ### ### ####'
-    ];
-    const format = formats[Math.floor(Math.random() * formats.length)];
-    return format.replace(/#/g, () => Math.floor(Math.random() * 10));
+    let number = '';
+    for (let i = 0; i < 10; i++) {
+      number += Math.floor(Math.random() * 10);
+    }
+    return number;
   },
 
   // Address generators
