@@ -41,13 +41,29 @@ const FakeDataGenerators = {
     return `${firstName}.${lastName}${num}@${domain}`;
   },
 
-  // Phone generator - valid US 10 digit number
+  // Phone generator - valid US 10 digit number (NANP format)
   phone: () => {
-    // Valid US format: NXX-555-XXXX (N=2-9, X=0-9)
+    // Valid US NANP format: NXX-NXX-XXXX
+    // N = 2-9, X = 0-9
+    // Area code can't end in 11 (service codes like 211, 311, etc.)
+
+    // Area code: first digit 2-9, avoid X11 pattern
     const areaFirst = Math.floor(Math.random() * 8) + 2;
-    const areaRest = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+    let areaSecond, areaThird;
+    do {
+      areaSecond = Math.floor(Math.random() * 10);
+      areaThird = Math.floor(Math.random() * 10);
+    } while (areaSecond === 1 && areaThird === 1); // Avoid X11 codes
+
+    // Exchange: first digit 2-9
+    const exchFirst = Math.floor(Math.random() * 8) + 2;
+    const exchSecond = Math.floor(Math.random() * 10);
+    const exchThird = Math.floor(Math.random() * 10);
+
+    // Subscriber: any 4 digits
     const subscriber = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
-    return `${areaFirst}${areaRest}555${subscriber}`;
+
+    return `${areaFirst}${areaSecond}${areaThird}${exchFirst}${exchSecond}${exchThird}${subscriber}`;
   },
 
   // Address generators
